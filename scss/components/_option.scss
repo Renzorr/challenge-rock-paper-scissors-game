@@ -35,7 +35,7 @@
     opacity: 0.3;
   }
 
-  &.inactive{
+  &.inactive {
     pointer-events: none;
   }
 }
@@ -72,7 +72,7 @@
   background: linear-gradient($paper-gradient);
 }
 
-#scissor {
+#scissors {
   background: linear-gradient($scissors-gradient);
 }
 
@@ -81,7 +81,10 @@
   grid-column: 1 / 3;
 }
 
-
-.option.inactive{
+.option.inactive {
   display: none;
+}
+
+.option_bg.disabled {
+  pointer-events: none;
 }

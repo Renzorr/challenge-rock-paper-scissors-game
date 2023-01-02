@@ -28,10 +28,11 @@
 }
 
 .option_result_middle_content {
+  position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
-  transform: translateY(35px);
+  margin-top: 50px;
 }
 
 .option_result_middle_content_title {
@@ -59,7 +60,24 @@
   }
 }
 
-
-.option_result.active{
+.option_result.active {
   display: inherit;
+}
+
+.computer_waiting {
+  width: 200px;
+  height: 200px;
+  background: rgba(156, 152, 152, 0.411);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: scale 1s linear infinite alternate;
+
+  @keyframes scale {
+    0% {
+      transform: scale(0.8);
+    }
+    100% {
+      transform: scale(1.2);
+    }
+  }
 }

@@ -173,7 +173,7 @@ main {
   background: linear-gradient(hsl(230deg, 89%, 62%), hsl(230deg, 89%, 65%));
 }
 
-#scissor {
+#scissors {
   background: linear-gradient(hsl(39deg, 89%, 49%), hsl(40deg, 84%, 53%));
 }
 
@@ -184,6 +184,10 @@ main {
 
 .option.inactive {
   display: none;
+}
+
+.option_bg.disabled {
+  pointer-events: none;
 }
 
 .rules {
@@ -290,10 +294,11 @@ main {
 }
 
 .option_result_middle_content {
+  position: relative;
   display: flex;
   align-items: center;
   flex-direction: column;
-  transform: translateY(35px);
+  margin-top: 50px;
 }
 
 .option_result_middle_content_title {
@@ -322,6 +327,23 @@ main {
 
 .option_result.active {
   display: inherit;
+}
+
+.computer_waiting {
+  width: 200px;
+  height: 200px;
+  background: rgba(156, 152, 152, 0.411);
+  border-radius: 50%;
+  opacity: 0.3;
+  animation: scale 1s linear infinite alternate;
+}
+@keyframes scale {
+  0% {
+    transform: scale(0.8);
+  }
+  100% {
+    transform: scale(1.2);
+  }
 }
 
 /*# sourceMappingURL=main.css.map */

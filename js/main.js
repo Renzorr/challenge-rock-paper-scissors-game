@@ -1,4 +1,4 @@
-const maquina = ["paper", "scissor", "rock"];
+const maquina = ["paper", "scissors", "rock"];
 const options = document.querySelectorAll(".option_bg");
 const optionsSection = document.querySelector(".option");
 const resultSection = document.querySelector(".option_result");
@@ -7,53 +7,92 @@ const resultTxt = document.getElementById("result-txt");
 const againBtn = document.getElementById("again");
 const areaPlayer = document.getElementById("player");
 const areaComputer = document.getElementById("computer");
+const resultContainer = document.getElementById("result-container");
+const resultWaiting = document.querySelector("computer_waiting");
 
 let score = 0;
+let tl = gsap.timeline({});
 
 const updateScore = () => {
   scoreText.innerHTML = score;
 };
 
-const juego = (eleccionHumano, eleccionBtn) => {
-  let eleccionMaquina = generadorEleccionMaquina();
+const updatePlayerSelection = (eleccionHumano) => {
+  areaPlayer.innerHTML = `
+  <div class="option_bg disabled" id="${eleccionHumano}">
+  <div class="option_bg_item">
+    <img src="/images/icon-${eleccionHumano}.svg" alt="${eleccionHumano} icon" />
+  </div>
+  </div>`;
+};
+
+const updateComputerSelection = (eleccionMaquina) => {
+  areaComputer.innerHTML = `
+      <div class="option_bg disabled" id="${eleccionMaquina}">
+      <div class="option_bg_item">
+        <img src="/images/icon-${eleccionMaquina}.svg" alt="${eleccionMaquina} icon" />
+      </div>
+      </div>`;
+};
+
+const computerGeneratorScore = () => {
+  return maquina[Math.floor(Math.random() * maquina.length)];
+};
+
+const changeOptionArea = () => {
+  optionsSection.classList.add("inactive");
+  resultSection.classList.add("active");
+};
+
+const returnOptionArea = () => {
+  optionsSection.classList.remove("inactive");
+  resultSection.classList.remove("active");
+};
+
+const juego = (eleccionHumano) => {
+  let eleccionMaquina = computerGeneratorScore();
+
+  tl.from(areaComputer, { opacity: 0, duration: 2 }).from(
+    resultContainer,
+    {
+      opacity: 0,
+      y: 600,
+    },
+    "-=1"
+  );
+
+  updateComputerSelection(eleccionMaquina);
+  updatePlayerSelection(eleccionHumano);
 
   if (
     (eleccionHumano == "paper" && eleccionMaquina == "rock") ||
-    (eleccionHumano == "scissor" && eleccionMaquina == "paper") ||
-    (eleccionHumano == "rock" && eleccionMaquina == "scissor")
+    (eleccionHumano == "scissors" && eleccionMaquina == "paper") ||
+    (eleccionHumano == "rock" && eleccionMaquina == "scissors")
   ) {
-    alert("gana jugador");
+    resultTxt.innerHTML = "You Win";
     score++;
   } else if (eleccionHumano == eleccionMaquina) {
-    alert("empate");
+    resultTxt.innerHTML = "Draw";
   } else {
-    alert("gana maquina");
+    resultTxt.innerHTML = "You Loose";
     score--;
   }
 
   updateScore();
-  console.log(eleccionHumano);
-  console.log(eleccionMaquina);
   return;
 };
 
 const eleccionJugador = () => {
   options.forEach((e) => {
     e.addEventListener("click", function () {
-      juego(e.value, e);
-      optionsSection.classList.add("inactive");
-      resultSection.classList.add("active");
+      juego(e.value);
+      changeOptionArea();
     });
   });
 };
 
-const generadorEleccionMaquina = () => {
-  return maquina[Math.floor(Math.random() * maquina.length)];
-};
-
 againBtn.addEventListener("click", () => {
-  optionsSection.classList.remove("inactive");
-  resultSection.classList.remove("active");
+  returnOptionArea();
 });
 
 eleccionJugador();
