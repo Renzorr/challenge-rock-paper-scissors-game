@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="./images/favicon-32x32.png"
+    />
+    <!-- font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Barlow+Semi+Condensed:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <!-- style -->
+    <link rel="stylesheet" href="/css/main.css" />
+    <title>Frontend Mentor | Rock, Paper, Scissors</title>
+  </head>
+  <body>
+    <main>
+      <header class="header">
+        <picture class="header_img"
+          ><img src="images/logo.svg" alt="logo icon"
+        /></picture>
+        <div class="header_score">
+          <h1 class="header_score_title">Score</h1>
+          <span class="header_score_point" id="score-txt">0</span>
+        </div>
+      </header>
+
+      <section class="option">
+        <button class="option_bg" id="paper" value="paper">
+          <div class="option_bg_item">
+            <img src="/images/icon-paper.svg" alt="paper icon" />
+          </div>
+        </button>
+        <button class="option_bg" id="scissor" value="scissor">
+          <div class="option_bg_item">
+            <img src="/images/icon-scissors.svg" alt="scissors icon" />
+          </div>
+        </button>
+        <button class="option_bg" id="rock" value="rock">
+          <div class="option_bg_item">
+            <img src="/images/icon-rock.svg" alt="rock icon" />
+          </div>
+        </button>
+      </section>
+
+      <section class="option_result">
+        <div class="option_result_middle">
+          <div class="option_result_select">
+            <span class="option_result_select_title">You picked</span>
+            <div id="player"></div>
+          </div>
+
+          <div class="option_result_middle_content">
+            <p class="option_result_middle_content_title" id="result-txt">
+              You win
+            </p>
+            <button class="option_result_middle_content_btn" id="again">
+              Play again
+            </button>
+          </div>
+
+          <div class="option_result_select">
+            <span class="option_result_select_title">The house picked</span>
+            <div id="computer"></div>
+          </div>
+        </div>
+      </section>
+
+      <div class="rules">
+        <p class="rules_title">Rules</p>
+      </div>
+
+      <div class="wrapper">
+        <div class="rules_modal">
+          <div class="rules_modal_top">
+            <p class="rules_modal_title">Rules</p>
+            <img
+              src="images/icon-close.svg"
+              alt="close icon"
+              class="rules_modal_close"
+            />
+          </div>
+          <picture
+            ><img src="images/image-rules.svg" alt="" aria-hidden="true"
+          /></picture>
+        </div>
+      </div>
+    </main>
+
+    <script src="js/index.js"></script>
+    <script src="/js/main.js"></script>
+  </body>
+</html>

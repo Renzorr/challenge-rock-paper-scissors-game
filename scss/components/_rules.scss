@@ -1,0 +1,60 @@
+.rules {
+  position: absolute;
+  bottom: 12%;
+  right: 0%;
+  border: 1px solid $white;
+  border-radius: 6px;
+  padding: 8px 30px;
+  cursor: pointer;
+  transition: 0.5s;
+  color: $white;
+
+  &:hover {
+    background-color: $white;
+    color: $score-Text;
+  }
+}
+
+.rules_title {
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: bold;
+}
+
+.rules_modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -350%);
+  background-color: $white;
+  width: 100%;
+  max-width: 400px;
+  border-radius: 8px;
+  padding: 28px;
+  opacity: 0;
+  transition: 0.5s;
+
+  picture {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.rules_modal_top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 60px;
+}
+
+.rules_modal_title {
+  font-size: 32px;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: $header-outline;
+}
+
+.rules_modal_close {
+  cursor: pointer;
+}

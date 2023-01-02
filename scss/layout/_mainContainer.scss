@@ -1,0 +1,12 @@
+body {
+  background: $bg-radial-gradient;
+  height: 100vh;
+  overflow: hidden;
+}
+
+main {
+  margin: 0 auto;
+  max-width: 1300px;
+  height: 100%;
+  position: relative;
+}
