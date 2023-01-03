@@ -69,20 +69,6 @@ const returnOptionArea = () => {
   resultSection.classList.remove("active");
 };
 
-const validateResultText = (winnerp, winnerc) => {
-  if (!winnerp) {
-    resultTxt.innerHTML = "You Loose";
-    score--;
-  }
-  if (!winnerc) {
-    resultTxt.innerHTML = "You Win";
-    score++;
-  }
-  if (!winnerc && !winnerp) {
-    resultTxt.innerHTML = "Draw";
-  }
-};
-
 const game = (playerSelection) => {
   let ComputerSelection = computerGeneratorScore();
 
@@ -103,16 +89,20 @@ const game = (playerSelection) => {
     (playerSelection == "rock" && ComputerSelection == "scissors")
   ) {
     winPlayer = true;
+    resultTxt.innerHTML = "You Win";
+    score++;
   } else if (playerSelection == ComputerSelection) {
     winComputer = false;
     winPlayer = false;
+    resultTxt.innerHTML = "Draw";
   } else {
     winComputer = true;
+    resultTxt.innerHTML = "You Loose";
+    score--;
   }
 
   updatePlayerSelection(playerSelection, winPlayer);
   updateComputerSelection(ComputerSelection, winComputer);
-  validateResultText(winPlayer, winComputer);
   updateScore();
 };
 
