@@ -12,27 +12,47 @@ const resultWaiting = document.querySelector("computer_waiting");
 
 let score = 0;
 let tl = gsap.timeline({});
+let winPlayer = false;
+let winComputer = false;
 
 const updateScore = () => {
   scoreText.innerHTML = score;
 };
 
-const updatePlayerSelection = (eleccionHumano) => {
-  areaPlayer.innerHTML = `
-  <div class="option_bg disabled" id="${eleccionHumano}">
-  <div class="option_bg_item">
-    <img src="/images/icon-${eleccionHumano}.svg" alt="${eleccionHumano} icon" />
-  </div>
-  </div>`;
+const updatePlayerSelection = (eleccionHumano, winner) => {
+  if (winner) {
+    areaPlayer.innerHTML = `
+    <div class="option_bg disabled winner" id="${eleccionHumano}">
+    <div class="option_bg_item">
+      <img src="/images/icon-${eleccionHumano}.svg" alt="${eleccionHumano} icon" />
+    </div>
+    </div>`;
+  } else {
+    areaPlayer.innerHTML = `
+    <div class="option_bg disabled " id="${eleccionHumano}">
+    <div class="option_bg_item">
+      <img src="/images/icon-${eleccionHumano}.svg" alt="${eleccionHumano} icon" />
+    </div>
+    </div>`;
+  }
 };
 
-const updateComputerSelection = (eleccionMaquina) => {
-  areaComputer.innerHTML = `
-      <div class="option_bg disabled" id="${eleccionMaquina}">
-      <div class="option_bg_item">
-        <img src="/images/icon-${eleccionMaquina}.svg" alt="${eleccionMaquina} icon" />
-      </div>
-      </div>`;
+const updateComputerSelection = (eleccionMaquina, winner) => {
+  if (winner) {
+    areaComputer.innerHTML = `
+        <div class="option_bg disabled winner" id="${eleccionMaquina}">
+        <div class="option_bg_item">
+          <img src="/images/icon-${eleccionMaquina}.svg" alt="${eleccionMaquina} icon" />
+        </div>
+        </div>`;
+  } else {
+    areaComputer.innerHTML = `
+    <div class="option_bg disabled " id="${eleccionMaquina}">
+    <div class="option_bg_item">
+      <img src="/images/icon-${eleccionMaquina}.svg" alt="${eleccionMaquina} icon" />
+    </div>
+    </div>`;
+  }
 };
 
 const computerGeneratorScore = () => {
@@ -49,43 +69,57 @@ const returnOptionArea = () => {
   resultSection.classList.remove("active");
 };
 
-const juego = (eleccionHumano) => {
-  let eleccionMaquina = computerGeneratorScore();
-
-  tl.from(areaComputer, { opacity: 0, duration: 2 }).from(
-    resultContainer,
-    {
-      opacity: 0,
-      y: 600,
-    },
-    "-=1"
-  );
-
-  updateComputerSelection(eleccionMaquina);
-  updatePlayerSelection(eleccionHumano);
-
-  if (
-    (eleccionHumano == "paper" && eleccionMaquina == "rock") ||
-    (eleccionHumano == "scissors" && eleccionMaquina == "paper") ||
-    (eleccionHumano == "rock" && eleccionMaquina == "scissors")
-  ) {
-    resultTxt.innerHTML = "You Win";
-    score++;
-  } else if (eleccionHumano == eleccionMaquina) {
-    resultTxt.innerHTML = "Draw";
-  } else {
+const validateResultText = (winnerp, winnerc) => {
+  if (!winnerp) {
     resultTxt.innerHTML = "You Loose";
     score--;
   }
-
-  updateScore();
-  return;
+  if (!winnerc) {
+    resultTxt.innerHTML = "You Win";
+    score++;
+  }
+  if (!winnerc && !winnerp) {
+    resultTxt.innerHTML = "Draw";
+  }
 };
 
-const eleccionJugador = () => {
+const game = (playerSelection) => {
+  let ComputerSelection = computerGeneratorScore();
+
+  tl.from(areaComputer, { opacity: 0, duration: 2 })
+    .from(
+      resultContainer,
+      {
+        opacity: 0,
+        y: 600,
+      },
+      "-=1"
+    )
+    .from(areaPlayer, { opacity: 0 }, "-=2");
+
+  if (
+    (playerSelection == "paper" && ComputerSelection == "rock") ||
+    (playerSelection == "scissors" && ComputerSelection == "paper") ||
+    (playerSelection == "rock" && ComputerSelection == "scissors")
+  ) {
+    winPlayer = true;
+  } else if (playerSelection == ComputerSelection) {
+    winComputer = false;
+    winPlayer = false;
+  } else {
+    winComputer = true;
+  }
+
+  updatePlayerSelection(playerSelection, winPlayer);
+  updateComputerSelection(ComputerSelection, winComputer);
+  validateResultText(winPlayer, winComputer);
+  updateScore();
+};
+
+const optionSelected = () => {
   options.forEach((e) => {
     e.addEventListener("click", function () {
-      juego(e.value);
+      game(e.value);
       changeOptionArea();
     });
   });
@@ -95,4 +129,4 @@ againBtn.addEventListener("click", () => {
   returnOptionArea();
 });
 
-eleccionJugador();
+optionSelected();
