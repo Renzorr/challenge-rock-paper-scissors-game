@@ -334,6 +334,9 @@ main {
 }
 
 @media (max-width: 620px) {
+  body {
+    overflow: visible;
+  }
   main {
     display: flex;
     align-items: center;
