@@ -368,6 +368,7 @@ main {
   .rules {
     position: relative;
     margin-top: 250px;
+    margin-bottom: 80px;
   }
   .rules_modal {
     max-width: 350px;
@@ -378,7 +379,7 @@ main {
   }
   .option_result_middle {
     gap: 50px;
-    margin-bottom: 30px;
+    margin-bottom: 90px;
     width: 100%;
   }
   .option_result_select {
@@ -388,9 +389,12 @@ main {
   .option_result_select_title {
     font-size: 14px;
   }
+  .option_result_middle_content_title {
+    font-size: 43px;
+  }
   .option_result_middle_content {
     position: absolute;
-    top: 61%;
+    top: 65%;
     left: 37%;
     transform: translate(-50px, -50px) !important;
   }
