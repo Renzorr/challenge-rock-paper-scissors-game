@@ -92,8 +92,6 @@ const game = (playerSelection) => {
     resultTxt.innerHTML = "You Win";
     score++;
   } else if (playerSelection == ComputerSelection) {
-    winComputer = false;
-    winPlayer = false;
     resultTxt.innerHTML = "Draw";
   } else {
     winComputer = true;
@@ -104,6 +102,8 @@ const game = (playerSelection) => {
   updatePlayerSelection(playerSelection, winPlayer);
   updateComputerSelection(ComputerSelection, winComputer);
   updateScore();
+  winComputer = false;
+  winPlayer = false;
 };
 
 const optionSelected = () => {
