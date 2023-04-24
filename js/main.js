@@ -1,4 +1,4 @@
-const maquina = ["paper", "scissors", "rock"];
+const choice = ["paper", "scissors", "rock"];
 const options = document.querySelectorAll(".option_bg");
 const optionsSection = document.querySelector(".option");
 const resultSection = document.querySelector(".option_result");
@@ -10,8 +10,8 @@ const areaComputer = document.getElementById("computer");
 const resultContainer = document.getElementById("result-container");
 const resultWaiting = document.querySelector("computer_waiting");
 
-let score = 0;
 let tl = gsap.timeline({});
+let score = 0;
 let winPlayer = false;
 let winComputer = false;
 
@@ -19,104 +19,62 @@ const updateScore = () => {
   scoreText.innerHTML = score;
 };
 
-const updatePlayerSelection = (eleccionHumano, winner) => {
-  if (winner) {
-    areaPlayer.innerHTML = `
-    <div class="option_bg disabled winner" id="${eleccionHumano}">
-    <div class="option_bg_item">
-      <img src="/images/icon-${eleccionHumano}.svg" alt="${eleccionHumano} icon" />
-    </div>
+const updateSelection = (area, choice, winner) => {
+  const winnerClass = winner ? "winner" : "";
+  area.innerHTML = `
+    <div class="option_bg disabled ${winnerClass}" id="${choice}">
+      <div class="option_bg_item">
+        <img src="/images/icon-${choice}.svg" alt="${choice} icon" />
+      </div>
     </div>`;
-  } else {
-    areaPlayer.innerHTML = `
-    <div class="option_bg disabled " id="${eleccionHumano}">
-    <div class="option_bg_item">
-      <img src="/images/icon-${eleccionHumano}.svg" alt="${eleccionHumano} icon" />
-    </div>
-    </div>`;
-  }
-};
-
-const updateComputerSelection = (eleccionMaquina, winner) => {
-  if (winner) {
-    areaComputer.innerHTML = `
-        <div class="option_bg disabled winner" id="${eleccionMaquina}">
-        <div class="option_bg_item">
-          <img src="/images/icon-${eleccionMaquina}.svg" alt="${eleccionMaquina} icon" />
-        </div>
-        </div>`;
-  } else {
-    areaComputer.innerHTML = `
-    <div class="option_bg disabled " id="${eleccionMaquina}">
-    <div class="option_bg_item">
-      <img src="/images/icon-${eleccionMaquina}.svg" alt="${eleccionMaquina} icon" />
-    </div>
-    </div>`;
-  }
 };
 
 const computerGeneratorScore = () => {
-  return maquina[Math.floor(Math.random() * maquina.length)];
+  return choice[Math.floor(Math.random() * choice.length)];
 };
 
-const changeOptionArea = () => {
-  optionsSection.classList.add("inactive");
-  resultSection.classList.add("active");
+const handlePlayAgain = () => {
+  optionsSection.classList.toggle("inactive");
+  resultSection.classList.toggle("active");
 };
 
-const returnOptionArea = () => {
-  optionsSection.classList.remove("inactive");
-  resultSection.classList.remove("active");
+const AnimationOptionSelected = (areaComputer, resultContainer, areaPlayer) => {
+  tl.from(areaComputer, { opacity: 0, duration: 2 })
+    .from(resultContainer, { opacity: 0, y: 600 }, "-=1")
+    .from(areaPlayer, { opacity: 0 }, "-=2");
 };
 
 const game = (playerSelection) => {
-  let ComputerSelection = computerGeneratorScore();
+  const computerSelection = computerGeneratorScore();
+  const winPlayer =
+    (playerSelection === "paper" && computerSelection === "rock") ||
+    (playerSelection === "scissors" && computerSelection === "paper") ||
+    (playerSelection === "rock" && computerSelection === "scissors");
+  const winComputer =
+    playerSelection === computerSelection ? false : !winPlayer;
+  const result = winPlayer ? "You Win" : winComputer ? "You Lose" : "Draw";
+  const scoreChange = winPlayer ? 1 : winComputer ? -1 : 0;
 
-  tl.from(areaComputer, { opacity: 0, duration: 2 })
-    .from(
-      resultContainer,
-      {
-        opacity: 0,
-        y: 600,
-      },
-      "-=1"
-    )
-    .from(areaPlayer, { opacity: 0 }, "-=2");
-
-  if (
-    (playerSelection == "paper" && ComputerSelection == "rock") ||
-    (playerSelection == "scissors" && ComputerSelection == "paper") ||
-    (playerSelection == "rock" && ComputerSelection == "scissors")
-  ) {
-    winPlayer = true;
-    resultTxt.innerHTML = "You Win";
-    score++;
-  } else if (playerSelection == ComputerSelection) {
-    resultTxt.innerHTML = "Draw";
-  } else {
-    winComputer = true;
-    resultTxt.innerHTML = "You Loose";
-    score--;
-  }
-
-  updatePlayerSelection(playerSelection, winPlayer);
-  updateComputerSelection(ComputerSelection, winComputer);
+  updateSelection(areaPlayer, playerSelection, winPlayer);
+  updateSelection(areaComputer, computerSelection, winComputer);
+  resultTxt.innerHTML = result;
+  score += scoreChange;
   updateScore();
-  winComputer = false;
-  winPlayer = false;
+  AnimationOptionSelected(areaComputer, resultContainer, areaPlayer);
+  handlePlayAgain();
 };
 
-const optionSelected = () => {
-  options.forEach((e) => {
-    e.addEventListener("click", function () {
-      game(e.value);
-      changeOptionArea();
+const handleOptionSelected = () => {
+  options.forEach((option) => {
+    option.addEventListener("click", () => {
+      game(option.value);
     });
   });
 };
 
-againBtn.addEventListener("click", () => {
-  returnOptionArea();
-});
+const handlePlayAgainButton = () => {
+  againBtn.addEventListener("click", handlePlayAgain);
+};
 
-optionSelected();
+handleOptionSelected();
+handlePlayAgainButton();
